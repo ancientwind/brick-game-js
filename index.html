@@ -7,9 +7,12 @@
     <title>Brick Game</title>
     <link rel="stylesheet" type="text/css" href="style.css" />
 </head>
-<body>
+<body onload="_init()">
     <div class="game-space">
         <canvas id="myGame" width="500px" height="300px"></canvas>
+    </div>
+    <div class="control-space">
+        <button onclick="_run()">Start Game</button>
     </div>
     <div id="test-area"></div>
     <script type="text/javascript" src="index.js"></script>

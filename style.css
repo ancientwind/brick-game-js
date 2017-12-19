@@ -8,3 +8,15 @@ body {
     height: 300px;
     border: 1px solid black;
 }
+
+.control-space {
+    width: 500px;
+    height: 50px;
+}
+
+.control-space button {
+    width: 50px;
+    height: 45px;
+    margin-right: 20px;
+    margin-top: 5px;
+}
