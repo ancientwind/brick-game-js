@@ -3,12 +3,10 @@ var ctx
 var ballImage
 var barImage
 
-var barPositionX = 100
-
 var bar = {
     width: 120,
     height: 20,
-    speed: 1,
+    speed: 10,
     posX: 100,
     posY: 260,
 }
@@ -21,6 +19,9 @@ var ball = {
     posY: 150,
 }
 
+var isKeydown = false
+var idInterval
+
 function initCtx() {
     canvas = document.getElementById('myGame')
     if (canvas) {
@@ -28,15 +29,16 @@ function initCtx() {
     }
 }
 
-var _drawImage = function (obj, posX, posY) {
+var _drawImage = function (objImage, obj) {
     if (ctx) {
-        ctx.drawImage(obj, posX, posY, ball.width, ball.height)
+        ctx.drawImage(objImage, obj.posX, obj.posY, obj.width, obj.height)
     }
 };
+
 function initBall() {
     ballImage = new Image()
     ballImage.onload = function() {
-        _drawImage(ballImage, ball.posX, ball.posY);
+        _drawImage(ballImage, ball);
     }
     ballImage.src = 'img/ball.png'
 }
@@ -44,33 +46,52 @@ function initBall() {
 function initBar() {
     barImage = new Image()
     barImage.onload = function() {
-        _drawImage(barImage, bar.posX, bar.posY)
+        _drawImage(barImage, bar)
     }
     barImage.src = 'img/bar.jpeg'    
 }
 
 function bindKeyMove() {
     window.addEventListener('keydown', function(event) {
-        if (event.key === 'a') {
-            moveLeft()
+        if (!isKeydown) {
+            isKeydown = true
+            idInterval = window.setInterval(function() {
+                moveBar(event.key) }, 1000/30) 
         }
-        else if (event.key === 'd') {
-            moveRight()
-        }
+    })
+
+    window.addEventListener('keyup', function() {
+        window.clearInterval(idInterval)
+        isKeydown = false
     })
 }
 
-function clearBar() {
-    ctx.clearRect(0, 260, canvas.width, bar.height)
-}
-function moveLeft() {
-    clearBar()
-    _drawImage(barImage, --bar.posX, bar.posY)
-    _log('move left' + bar.posX)
+function moveBar(key) {
+    updateBarPos(key)
+    reDrawBar()
 }
 
-function moveRight() {
-    _log('move right')
+function clearBar() {
+    ctx.clearRect(0, bar.posY, canvas.width, bar.height)
+}
+
+function updateBarPos(key) {
+    if ( key === 'a' ) {
+        if ( bar.posX > 0 ) { 
+            bar.posX -= bar.speed  
+        }
+    }
+    else if ( key === 'd') {
+        if ( bar.posX < canvas.width - bar.width) { 
+            bar.posX += bar.speed 
+        }
+    }
+}
+
+function reDrawBar() {
+    clearBar()
+    _drawImage(barImage, bar)
+    _log('bar move left' + bar.posX)
 }
 
 function _log(text) {
