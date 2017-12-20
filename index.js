@@ -3,6 +3,74 @@ var ctx
 var ballImage
 var barImage
 
+var _image = function(path) {
+    var image = new Image()
+    image.src = path
+    return image
+}
+
+var _drawImage = function (objImage, obj) {
+    if (ctx) {
+        ctx.drawImage(objImage, obj.posX, obj.posY, obj.width, obj.height)
+    }
+};
+
+var Bar = function() {
+
+    var o = {
+        width: 120,
+        height: 20,
+        speed: 10,
+        posX: 100,
+        posY: 270,        
+    }
+
+    o.image = _image('img/bar.jpeg')
+
+    return o
+}
+
+var Ball = function() {
+
+    var o = {
+        width: 30,
+        height: 30,
+        speed: 5,
+        posX: 100,
+        posY: 150,
+    }
+
+    o.image = _image('img/ball.png')
+
+    o.getCenterX = function() { return (o.posX + o.width/2) }
+
+    return o
+
+}
+
+var Game = function() {
+    var canvas = document.getElementById('myGame')
+    var ctx
+    if (canvas) {
+        ctx = canvas.getContext('2d')
+    }
+    var g = {}
+
+    g.init = function() {
+        
+    }
+
+    return g
+}
+
+var _main = function() {
+
+    var game = Game()
+    var bar = Bar()
+    var ball = Ball()
+
+}
+
 var bar = {
     width: 120,
     height: 20,
@@ -36,11 +104,7 @@ function initCtx() {
     }
 }
 
-var _drawImage = function (objImage, obj) {
-    if (ctx) {
-        ctx.drawImage(objImage, obj.posX, obj.posY, obj.width, obj.height)
-    }
-};
+
 
 function initBall() {
     ballImage = new Image()
